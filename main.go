@@ -5,38 +5,39 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
+	"github.com/chee-zer/pokedex/commands"
 )
 
-type cliCommand struct {
+
+type locationRes struct {
 	name string
-	description string
-	callback func() error
+	url string
 }
 
-var cmdReg map[string]cliCommand
+type apiRes struct {
+	Count int `json:"count"`
+	Next string `json:"next"`
+	Previous string `json:"previous"`
+	Results []locationRes `json:"results"`
+}
+
 
 func main()  {
 	//registry of valid commands
-	cmdReg = map[string]cliCommand{
-		"exit": {
-			name: "exit",
-			description: "Exit the Pokedex",
-			callback: commandExit,
-		},
-		"help": {
-			name: "help",
-			description: "Display a help message",
-			callback: commandHelp,
-		},
-	}
+	commands.RegisterCommands()
+	
 	s := bufio.NewScanner(os.Stdin)
 	for {
 		fmt.Print("Pokedex > ")
 		if s.Scan() {
+			if s.Text() == "" {
+				continue
+			}
 			inp := cleanInput(s.Text())[0];
-			cmd, exists := cmdReg[inp]
+			cmd, exists := commands.CmdReg[inp]
 			if exists {
-				cmd.callback()
+				cmd.Callback()
 			} else {
 				fmt.Println("Unknown command")
 			}
@@ -49,18 +50,3 @@ func cleanInput(text string) []string {
 	return strings.Fields(strings.ToLower(text))
 }
 
-//callback for commands
-
-func commandExit() error {
-	fmt.Println("Closing the Pokedex... Goodbye!")
-	os.Exit(0)
-	return nil
-}
-
-func commandHelp() error {
-	fmt.Printf("Welcome to the Pokedex!\nUsage:\n\n")
-	for cmd, val := range cmdReg {
-		fmt.Printf("%v: %v\n", cmd, val.description)
-	}
-	return nil
-}
