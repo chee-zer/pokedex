@@ -9,14 +9,15 @@ import (
 	"github.com/chee-zer/pokedex/commands"
 )
 
-
-
-
-
 func main()  {
 	//registry of valid commands
 	commands.RegisterCommands()
 	
+	cfg := commands.Config{
+		Next :"https://pokeapi.co/api/v2/location-area/",
+		Previous : "",
+	}
+
 	s := bufio.NewScanner(os.Stdin)
 	for {
 		fmt.Print("Pokedex > ")
@@ -27,7 +28,10 @@ func main()  {
 			inp := cleanInput(s.Text())[0];
 			cmd, exists := commands.CmdReg[inp]
 			if exists {
-				cmd.Callback()
+				err := cmd.Callback(&cfg)
+				if err != nil {
+					fmt.Println(err)
+				}
 			} else {
 				fmt.Println("Unknown command")
 			}

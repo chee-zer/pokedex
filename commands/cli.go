@@ -5,10 +5,13 @@ package commands
 type CliCommand struct {
 	Name string
 	Description string
-	Callback func() error
+	Callback func(*Config) error
 }
 
-
+type Config struct {
+	Next string
+	Previous string
+}
 
 var CmdReg = map[string]CliCommand{}
 
@@ -25,7 +28,12 @@ func RegisterCommands() {
 	}
 	CmdReg["map"] = CliCommand{
 		Name: "map",
-		Description: "Display names of location areas in the Pokemon world.",
+		Description: "Display next 20 names of location areas in the Pokemon world.",
 		Callback: Map,
+	}
+	CmdReg["mapb"] = CliCommand{
+		Name: "mapb",
+		Description: "Display the previous 20 names of location areas in the Pokemon world.",
+		Callback: Mapb,
 	}
 }

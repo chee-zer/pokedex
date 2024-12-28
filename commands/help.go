@@ -6,7 +6,7 @@ func getCmdReg () map[string]CliCommand {
 	return CmdReg
 }
 
-func Help() error {
+func Help(cfg *Config) error {
 	fmt.Printf("Welcome to the Pokedex!\nUsage:\n\n")
 	cmdReg := getCmdReg()
 	for cmd, val := range cmdReg {
