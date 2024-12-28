@@ -10,17 +10,7 @@ import (
 )
 
 
-type locationRes struct {
-	name string
-	url string
-}
 
-type apiRes struct {
-	Count int `json:"count"`
-	Next string `json:"next"`
-	Previous string `json:"previous"`
-	Results []locationRes `json:"results"`
-}
 
 
 func main()  {

@@ -1,5 +1,7 @@
 package commands
 
+//cliCommand can stay unexported, but its properties need to
+//be exported, since they are being used indirectly outside this package
 type CliCommand struct {
 	Name string
 	Description string
