@@ -1,5 +1,7 @@
 package commands
 
+import "github.com/chee-zer/pokedex/internal/pokecache"
+
 //cliCommand can stay unexported, but its properties need to
 //be exported, since they are being used indirectly outside this package
 type CliCommand struct {
@@ -11,6 +13,7 @@ type CliCommand struct {
 type Config struct {
 	Next string
 	Previous string
+	C *pokecache.Cache
 }
 
 var CmdReg = map[string]CliCommand{}

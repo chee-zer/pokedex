@@ -5,18 +5,23 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/chee-zer/pokedex/commands"
+	"github.com/chee-zer/pokedex/internal/pokecache"
 )
 
 func main()  {
 	//registry of valid commands
 	commands.RegisterCommands()
+	urlCache := pokecache.NewCache(5 * time.Second)
 	
 	cfg := commands.Config{
 		Next :"https://pokeapi.co/api/v2/location-area/",
 		Previous : "",
+		C: urlCache,
 	}
+
 
 	s := bufio.NewScanner(os.Stdin)
 	for {
