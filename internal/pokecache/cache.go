@@ -7,33 +7,32 @@ import (
 
 type cacheEntry struct {
 	createdAt time.Time
-	Val []byte
+	Val       []byte
 }
 
-type Cache struct{
-	Entry map[string]cacheEntry
+type Cache struct {
+	Entry    map[string]cacheEntry
 	interval time.Duration
-	mu sync.RWMutex
+	mu       sync.RWMutex
 }
 
 func NewCache(interval time.Duration) *Cache {
 
-	c := &Cache {
-		Entry: make(map[string]cacheEntry),
+	c := &Cache{
+		Entry:    make(map[string]cacheEntry),
 		interval: interval,
-		mu: sync.RWMutex{},
-
+		mu:       sync.RWMutex{},
 	}
 	go c.reapLoop()
 	return c
 }
 
-func (c *Cache) Add (key string, val []byte) {
+func (c *Cache) Add(key string, val []byte) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
-	entry := cacheEntry {
+	entry := cacheEntry{
 		createdAt: time.Now(),
-		Val: val,
+		Val:       val,
 	}
 	c.Entry[key] = entry
 }
@@ -49,7 +48,7 @@ func (c *Cache) Get(key string) ([]byte, bool) {
 	}
 }
 
-func (c * Cache) delete(key string) {
+func (c *Cache) delete(key string) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
 	delete(c.Entry, key)
@@ -58,7 +57,7 @@ func (c * Cache) delete(key string) {
 func (c *Cache) reapLoop() {
 	timer := time.NewTicker(c.interval)
 	for {
-		<- timer.C
+		<-timer.C
 		now := time.Now()
 		for k, v := range c.Entry {
 			age := v.createdAt.Add(c.interval)

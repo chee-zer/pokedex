@@ -2,41 +2,47 @@ package commands
 
 import "github.com/chee-zer/pokedex/internal/pokecache"
 
-//cliCommand can stay unexported, but its properties need to
-//be exported, since they are being used indirectly outside this package
+// cliCommand can stay unexported, but its properties need to
+// be exported, since they are being used indirectly outside this package
 type CliCommand struct {
-	Name string
+	Name        string
 	Description string
-	Callback func(*Config) error
+	Callback    func(*Config) error
 }
 
 type Config struct {
-	Next string
+	Next     string
 	Previous string
-	C *pokecache.Cache
+	C        *pokecache.Cache
+	Args     []string
 }
 
 var CmdReg = map[string]CliCommand{}
 
 func RegisterCommands() {
-	CmdReg["exit"] = CliCommand {
-		Name: "exit",
+	CmdReg["exit"] = CliCommand{
+		Name:        "exit",
 		Description: "Exit the Pokedex",
-		Callback: Exit,
+		Callback:    Exit,
 	}
 	CmdReg["help"] = CliCommand{
-		Name: "help",
+		Name:        "help",
 		Description: "Display a help message",
-		Callback: Help,
+		Callback:    Help,
 	}
 	CmdReg["map"] = CliCommand{
-		Name: "map",
+		Name:        "map",
 		Description: "Display next 20 names of location areas in the Pokemon world.",
-		Callback: Map,
+		Callback:    Map,
 	}
 	CmdReg["mapb"] = CliCommand{
-		Name: "mapb",
+		Name:        "mapb",
 		Description: "Display the previous 20 names of location areas in the Pokemon world.",
-		Callback: Mapb,
+		Callback:    Mapb,
+	}
+	CmdReg["explore"] = CliCommand{
+		Name:        "explore",
+		Description: "Explore the location for pokemons!",
+		Callback:    Explore,
 	}
 }

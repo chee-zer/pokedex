@@ -2,7 +2,7 @@ package commands
 
 import "fmt"
 
-func getCmdReg () map[string]CliCommand {
+func getCmdReg() map[string]CliCommand {
 	return CmdReg
 }
 

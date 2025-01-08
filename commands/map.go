@@ -15,8 +15,6 @@ func printLocations(locations []pokeapi.LocationRes) {
 	}
 }
 
-
-
 func Map(cfg *Config) error {
 	//checks if there are no more pages
 	if cfg.Next == "" {
@@ -32,34 +30,33 @@ func Map(cfg *Config) error {
 	if exists {
 		data = cachedData
 	} else {
-	req, err := http.NewRequest("GET", url, nil)
-	if err != nil {
-		return fmt.Errorf("couldn't make request")
-	}
+		req, err := http.NewRequest("GET", url, nil)
+		if err != nil {
+			return fmt.Errorf("couldn't make request")
+		}
 
-	client := &http.Client{}
-	res, err := client.Do(req)
-	if err != nil {
-		return fmt.Errorf("invalid request")
-	}
-	
-	data, err = io.ReadAll(res.Body)
-	if err != nil {
-		return fmt.Errorf("could not process fetched data")
-	}
-	
+		client := &http.Client{}
+		res, err := client.Do(req)
+		if err != nil {
+			return fmt.Errorf("invalid request")
+		}
 
-	cfg.C.Add(url, data)
+		data, err = io.ReadAll(res.Body)
+		if err != nil {
+			return fmt.Errorf("could not process fetched data")
+		}
+
+		cfg.C.Add(url, data)
 	}
 	if err := json.Unmarshal(data, &jsonData); err != nil {
 		return fmt.Errorf("could not decode response")
 	}
-	
+
 	printLocations(jsonData.Results)
 
 	cfg.Next = jsonData.Next
 	cfg.Previous = jsonData.Previous
-	
+
 	return nil
 }
 
@@ -73,27 +70,27 @@ func Mapb(cfg *Config) error {
 	cachedData, exists := cfg.C.Get(url)
 	if exists {
 		data = cachedData
-		} else {
-			req, err := http.NewRequest("GET", url, nil)
-			if err != nil {
-				return fmt.Errorf("couldn't make request")
-			}
-			
-			client := &http.Client{}
-			res, err := client.Do(req)
-			if err != nil {
-				return fmt.Errorf("invalid request")
-			}
-			defer res.Body.Close()
-			
-			data, err = io.ReadAll(res.Body)
-			if err != nil {
-				return fmt.Errorf("could not process fetched data")
-			}
+	} else {
+		req, err := http.NewRequest("GET", url, nil)
+		if err != nil {
+			return fmt.Errorf("couldn't make request")
+		}
 
-	cfg.C.Add(url, data)
+		client := &http.Client{}
+		res, err := client.Do(req)
+		if err != nil {
+			return fmt.Errorf("invalid request")
+		}
+		defer res.Body.Close()
+
+		data, err = io.ReadAll(res.Body)
+		if err != nil {
+			return fmt.Errorf("could not process fetched data")
+		}
+
+		cfg.C.Add(url, data)
 	}
-	
+
 	if err := json.Unmarshal(data, &jsonData); err != nil {
 		return fmt.Errorf("could not decode response")
 	}
@@ -102,6 +99,5 @@ func Mapb(cfg *Config) error {
 	cfg.Next = jsonData.Next
 	cfg.Previous = jsonData.Previous
 
-	 return nil
+	return nil
 }
-

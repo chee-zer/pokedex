@@ -3,17 +3,17 @@ package main
 import "testing"
 
 func TestCleanInput(t *testing.T) {
-	tests := []struct{
-		input string
+	tests := []struct {
+		input    string
 		expected []string
-	} {{
-		input: "   Hello Pokemon ",
+	}{{
+		input:    "   Hello Pokemon ",
 		expected: []string{"hello", "pokemon"},
 	}, {
-		input: "charizzard Ok pikACHu            ",
+		input:    "charizzard Ok pikACHu            ",
 		expected: []string{"charizzard", "ok", "pikachu"},
 	}, {
-		input: "charmander                  MewTwo ",
+		input:    "charmander                  MewTwo ",
 		expected: []string{"charmander", "mewtwo"},
 	}}
 
