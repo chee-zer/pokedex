@@ -1,5 +1,7 @@
 package commands
 
+import "fmt"
+
 type pokedexRaw struct {
 	Name   string `json:"name"`
 	Basexp int    `json:"base_experience"`
@@ -51,5 +53,17 @@ func cookData(dat pokedexRaw) Pokemon {
 func (p *Pokedex) Add(name string, val Pokemon) error {
 
 	p.Entry[name] = val
+	return nil
+}
+
+func PokedexC(cfg *Config) error {
+	if len(cfg.Pokedex.Entry) == 0 {
+		fmt.Printf("Your Pokedex is empty!\nCatch some pokemon to add them to your Pokedex!\n")
+		return nil
+	}
+	fmt.Println("Your Pokedex:")
+	for k := range cfg.Pokedex.Entry {
+		fmt.Printf("- %v\n", k)
+	}
 	return nil
 }

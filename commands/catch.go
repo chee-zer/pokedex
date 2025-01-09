@@ -53,6 +53,7 @@ func Catch(cfg *Config) error {
 
 		cfg.Pokedex.Add(mon, storePoke)
 		fmt.Printf("%v was caught!\n", mon)
+		fmt.Println("You may now inspect it with the inspect command.")
 	} else {
 		fmt.Printf("%v escaped!\n", mon)
 	}

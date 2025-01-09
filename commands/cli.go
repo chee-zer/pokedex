@@ -56,4 +56,9 @@ func RegisterCommands() {
 		Description: "Inspect a pokemon",
 		Callback:    Inspect,
 	}
+	CmdReg["pokedex"] = CliCommand{
+		Name:        "pokedex",
+		Description: "List all caught pokemon",
+		Callback:    PokedexC,
+	}
 }
