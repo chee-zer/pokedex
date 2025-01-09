@@ -6,7 +6,8 @@ type pokedexRaw struct {
 	Height int    `json:"height"`
 	Weight int    `json:"weight"`
 	Stats  []struct {
-		Stat struct {
+		BaseStat int `json:"base_stat"`
+		Stat     struct {
 			Name string `json:"name"`
 		} `json:"stat"`
 	} `json:"stats"`
@@ -22,7 +23,7 @@ type Pokemon struct {
 	Basexp int
 	Height int
 	Weight int
-	Stats  []string
+	Stats  map[string]int
 	Types  []string
 }
 
@@ -32,15 +33,16 @@ type Pokedex struct {
 
 func cookData(dat pokedexRaw) Pokemon {
 	var cookedData Pokemon
+	cookedData.Stats = make(map[string]int)
 	cookedData.Name = dat.Name
 	cookedData.Basexp = dat.Basexp
 	cookedData.Height = dat.Height
 	cookedData.Weight = dat.Weight
 	for _, stat := range dat.Stats {
-		cookedData.Stats = append(cookedData.Stats, stat.Stat.Name)
+		cookedData.Stats[stat.Stat.Name] = stat.BaseStat
 	}
 	for _, ty := range dat.Types {
-		cookedData.Stats = append(cookedData.Stats, ty.Typee.Name)
+		cookedData.Types = append(cookedData.Types, ty.Typee.Name)
 	}
 
 	return cookedData

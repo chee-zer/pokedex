@@ -51,4 +51,9 @@ func RegisterCommands() {
 		Description: "Catch a Pokemon duh",
 		Callback:    Catch,
 	}
+	CmdReg["inspect"] = CliCommand{
+		Name:        "inspect",
+		Description: "Inspect a pokemon",
+		Callback:    Inspect,
+	}
 }
