@@ -14,6 +14,7 @@ type Config struct {
 	Next     string
 	Previous string
 	C        *pokecache.Cache
+	Pokedex  Pokedex
 	Args     []string
 }
 
@@ -44,5 +45,10 @@ func RegisterCommands() {
 		Name:        "explore",
 		Description: "Explore the location for pokemons!",
 		Callback:    Explore,
+	}
+	CmdReg["catch"] = CliCommand{
+		Name:        "catch",
+		Description: "Catch a Pokemon duh",
+		Callback:    Catch,
 	}
 }

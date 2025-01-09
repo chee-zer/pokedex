@@ -56,6 +56,6 @@ func printPokemons(val []byte, location string) {
 	}
 	fmt.Printf("Exploring %v...\nFound Pokemon:\n", location)
 	for _, val := range data.PokemonEncounters {
-		fmt.Printf("- %v\n",val.Pokemon.Name)
+		fmt.Printf("- %v\n", val.Pokemon.Name)
 	}
 }

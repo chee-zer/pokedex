@@ -20,6 +20,9 @@ func main() {
 		Next:     "https://pokeapi.co/api/v2/location-area/",
 		Previous: "",
 		C:        urlCache,
+		Pokedex: commands.Pokedex{
+			Entry: make(map[string]commands.Pokemon),
+		},
 	}
 
 	s := bufio.NewScanner(os.Stdin)
